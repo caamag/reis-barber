@@ -1,0 +1,50 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #121212;
+  --color-ink-soft: #1a1a1a;
+  --color-ink-line: #2a2724;
+  --color-gold: #c9a24a;
+  --color-gold-deep: #8e6b25;
+  --color-gold-light: #e0c27e;
+  --color-cream: #f1ede5;
+  --color-cream-muted: #d9cfc0;
+  --color-stone: #9a9184;
+
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Manrope', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-ink text-cream font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold text-ink;
+  }
+}
+
+@utility font-wide {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+}
+
+@utility text-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
