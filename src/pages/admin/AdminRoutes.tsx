@@ -3,19 +3,20 @@ import { AuthProvider } from '../../contexts/AuthContext'
 import RequireAdmin from '../../components/RequireAdmin'
 import Login from './Login'
 import Dashboard from './Dashboard'
+import DaysOff from './DaysOff'
 
 // Tudo que fica em /admin/*. Carregado sob demanda, então o Firebase Auth
-// não pesa nas páginas dos clientes.
+// não pesa nas páginas dos clientes. Tudo, exceto o login, exige estar logado.
 export default function AdminRoutes() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="login" element={<Login />} />
         <Route
-          index
+          path="folgas"
           element={
             <RequireAdmin>
-              <Dashboard />
+              <DaysOff />
             </RequireAdmin>
           }
         />

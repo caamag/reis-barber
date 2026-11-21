@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CalendarDays, Clock, Loader2, LogOut, Phone, Scissors, Wallet } from 'lucide-react'
-import Crown from '../../components/Crown'
-import { useAuth } from '../../contexts/AuthContext'
+import { CalendarDays, CalendarOff, Clock, Loader2, Phone, Scissors, Wallet } from 'lucide-react'
+import AdminHeader from '../../components/AdminHeader'
 import { formatPrice, services } from '../../data/business'
 import { addDays, formatLongDate, nowInSaoPaulo, timeToMinutes, weekdayOf } from '../../lib/schedule'
 import { purgePastAppointments, subscribeAppointmentsFrom, type Appointment } from '../../services/adminAppointments'
@@ -29,7 +28,6 @@ const whatsappTo = (phone: string, a: Appointment) =>
   )}`
 
 export default function Dashboard() {
-  const { user, signOut } = useAuth()
   const [filter, setFilter] = useState<Filter>('today')
   const [items, setItems] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
@@ -109,36 +107,21 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-svh bg-ink">
-      <header className="sticky top-0 z-40 border-b border-ink-line bg-ink/95 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-          <Link to="/" className="flex items-center gap-3" aria-label="Ir para o site">
-            <Crown className="h-5 w-auto text-gold" />
-            <span className="flex items-baseline gap-1.5">
-              <span className="font-serif text-lg text-gold italic">Dos</span>
-              <span className="font-wide text-lg font-black">REIS</span>
-            </span>
-            <span className="hidden rounded-full border border-gold/40 px-2 py-0.5 text-[0.65rem] font-bold tracking-widest text-gold uppercase sm:inline">
-              Admin
-            </span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <span className="hidden text-sm text-stone md:inline">{user?.email}</span>
-            <button
-              type="button"
-              onClick={() => signOut()}
-              className="inline-flex items-center gap-2 rounded-full border border-ink-line px-4 py-2 text-sm font-semibold hover:border-gold hover:text-gold"
-            >
-              <LogOut size={16} /> Sair
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader />
 
       <main className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-        <div className="flex flex-col gap-2">
-          <span className="text-eyebrow text-gold">Painel</span>
-          <h1 className="font-wide text-3xl font-black uppercase">Agendamentos</h1>
-          <p className="text-cream-muted first-letter:uppercase">{formatLongDate(today)}</p>
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-2">
+            <span className="text-eyebrow text-gold">Painel</span>
+            <h1 className="font-wide text-3xl font-black uppercase">Agendamentos</h1>
+            <p className="text-cream-muted first-letter:uppercase">{formatLongDate(today)}</p>
+          </div>
+          <Link
+            to="/admin/folgas"
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-gold/60 px-5 py-2.5 text-sm font-bold text-gold transition-colors hover:bg-gold hover:text-ink"
+          >
+            <CalendarOff size={18} /> Adicionar folga
+          </Link>
         </div>
 
         {/* Destaques */}

@@ -27,7 +27,7 @@ export type NewAppointment = {
 
 export class SlotTakenError extends Error {
   constructor() {
-    super('Este horário acabou de ser reservado por outra pessoa.')
+    super('Este horário não está mais disponível.')
   }
 }
 

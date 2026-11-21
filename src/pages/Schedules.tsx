@@ -7,8 +7,9 @@ import DatePicker from '../components/DatePicker'
 import { business, formatPrice, fullAddress, mapsDirectionsUrl, services, whatsappLink } from '../data/business'
 
 const priceOf = (serviceName: string) => services.find((s) => s.name === serviceName)?.price ?? 0
-import { ALL_TIMES, formatLongDate, isPast, upcomingDays } from '../lib/schedule'
+import { ALL_TIMES, formatLongDate, isPast, nowInSaoPaulo, upcomingDays } from '../lib/schedule'
 import { createAppointment, fetchTakenTimes, SlotTakenError } from '../services/appointments'
+import { fetchDaysOffFrom } from '../services/daysOff'
 
 const onlyDigits = (v: string) => v.replace(/\D/g, '').slice(0, 11)
 
@@ -34,11 +35,29 @@ function StepTitle({ n, children }: { n: number; children: string }) {
 export default function Schedules() {
   const [params] = useSearchParams()
   const days = useMemo(() => upcomingDays(), [])
-  const availableDates = useMemo(() => days.map((d) => d.date), [days])
+
+  // Folgas cadastradas pelo admin: esses dias somem do calendário
+  const [daysOff, setDaysOff] = useState<Set<string>>(new Set())
+  useEffect(() => {
+    fetchDaysOffFrom(nowInSaoPaulo().date)
+      .then((list) => setDaysOff(new Set(list.map((d) => d.date))))
+      .catch((err) => console.warn('Não foi possível carregar as folgas:', err))
+  }, [])
+
+  const availableDates = useMemo(() => days.map((d) => d.date).filter((d) => !daysOff.has(d)), [days, daysOff])
 
   const initialService = services.find((s) => s.name === params.get('servico'))?.name ?? ''
   const [service, setService] = useState(initialService)
   const [date, setDate] = useState(days[0]?.date ?? '')
+
+  // Se a data escolhida virou folga (ex: a lista de folgas chegou depois), pula para o próximo dia livre
+  useEffect(() => {
+    if (date && daysOff.has(date)) {
+      setDate(availableDates[0] ?? '')
+      setTime('')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [daysOff])
   const [time, setTime] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
