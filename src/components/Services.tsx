@@ -1,5 +1,6 @@
 import SectionHeading from './SectionHeading'
-import { services, whatsappLink } from '../data/business'
+import { Link } from 'react-router-dom'
+import { formatPrice, services } from '../data/business'
 
 export default function Services() {
   return (
@@ -12,7 +13,7 @@ export default function Services() {
               Cuidado de <span className="text-gold">rei</span>, do corte à barba
             </>
           }
-          description="Cada atendimento é feito com calma, técnica e atenção aos detalhes. Escolha o seu serviço e agende direto pelo WhatsApp."
+          description="Cada atendimento é feito com calma, técnica e atenção aos detalhes. Escolha o seu serviço e agende direto pelo site."
         />
 
         <ul className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
@@ -34,16 +35,17 @@ export default function Services() {
               </div>
               <div className="relative -mt-10 flex flex-col gap-2 p-6">
                 <span className="font-wide text-xs font-bold text-gold">0{i + 1}</span>
-                <h3 className="font-wide text-xl font-black uppercase">{s.name}</h3>
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-wide text-xl font-black uppercase">{s.name}</h3>
+                  <span className="shrink-0 font-wide text-lg font-black text-gold">{formatPrice(s.price)}</span>
+                </div>
                 <p className="text-sm leading-relaxed text-cream-muted">{s.description}</p>
-                <a
-                  href={whatsappLink(`Olá! Gostaria de agendar: ${s.name}.`)}
-                  target="_blank"
-                  rel="noreferrer"
+                <Link
+                  to={`/schedules?servico=${encodeURIComponent(s.name)}`}
                   className="mt-3 inline-flex w-fit items-center gap-2 text-sm font-semibold text-gold hover:text-gold-light"
                 >
                   Agendar {s.name.toLowerCase()} →
-                </a>
+                </Link>
               </div>
             </li>
           ))}

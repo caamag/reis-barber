@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom'
 import Crown from './Crown'
-import { business, whatsappLink } from '../data/business'
+import { business } from '../data/business'
 
 export default function FinalCta() {
   return (
@@ -18,16 +19,14 @@ export default function FinalCta() {
           {business.slogan}
         </h2>
         <p className="mt-6 max-w-xl text-cream-muted sm:text-lg">
-          Garanta seu horário de sexta ou sábado. É só chamar no WhatsApp.
+          Garanta seu horário em poucos cliques, direto pelo site.
         </p>
-        <a
-          href={whatsappLink()}
-          target="_blank"
-          rel="noreferrer"
+        <Link
+          to="/schedules"
           className="mt-10 rounded-full bg-gold px-10 py-4 font-bold text-ink shadow-lg shadow-gold/20 transition-colors hover:bg-gold-light"
         >
-          Chamar no WhatsApp
-        </a>
+          Agendar horário
+        </Link>
       </div>
     </section>
   )

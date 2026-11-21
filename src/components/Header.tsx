@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import Crown from './Crown'
-import { whatsappLink } from '../data/business'
 
+// Links com "/" na frente funcionam tanto na home quanto em outras páginas.
 const links = [
-  { href: '#servicos', label: 'Serviços' },
-  { href: '#visite', label: 'Visite' },
+  { href: '/#servicos', label: 'Serviços' },
+  { href: '/#visite', label: 'Visite' },
 ]
 
 export default function Header() {
@@ -26,13 +27,13 @@ export default function Header() {
       }`}
     >
       <div className="mx-auto flex h-18 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a href="#inicio" className="flex items-center gap-3" aria-label="Dos Reis Barbearia — início">
+        <Link to="/" className="flex items-center gap-3" aria-label="Dos Reis Barbearia — início">
           <Crown className="h-5 w-auto text-gold" />
           <span className="flex items-baseline gap-1.5">
             <span className="font-serif text-lg text-gold italic">Dos</span>
             <span className="font-wide text-lg font-black tracking-tight">REIS</span>
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
           {links.map((l) => (
@@ -44,14 +45,12 @@ export default function Header() {
               {l.label}
             </a>
           ))}
-          <a
-            href={whatsappLink()}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/schedules"
             className="rounded-full bg-gold px-5 py-2.5 text-sm font-bold text-ink transition-colors hover:bg-gold-light"
           >
             Agendar
-          </a>
+          </Link>
         </nav>
 
         <button
@@ -80,14 +79,13 @@ export default function Header() {
               </li>
             ))}
           </ul>
-          <a
-            href={whatsappLink()}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/schedules"
+            onClick={() => setOpen(false)}
             className="mt-2 block rounded-full bg-gold py-3 text-center font-bold text-ink"
           >
-            Agendar pelo WhatsApp
-          </a>
+            Agendar horário
+          </Link>
         </nav>
       )}
     </header>

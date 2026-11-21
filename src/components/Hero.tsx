@@ -1,6 +1,7 @@
 import { ChevronDown, MapPin } from 'lucide-react'
 import logo from '../assets/logo-dark.png'
-import { business, whatsappLink } from '../data/business'
+import { Link } from 'react-router-dom'
+import { business } from '../data/business'
 
 export default function Hero() {
   return (
@@ -29,18 +30,16 @@ export default function Hero() {
 
         <p className="mt-5 flex items-center gap-2 text-sm text-cream-muted">
           <MapPin size={16} className="text-gold" />
-          {business.address.city} · {business.openDays}
+          {business.address.city} · {business.openDays}, {business.openHours}
         </p>
 
         <div className="mt-10 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
-          <a
-            href={whatsappLink()}
-            target="_blank"
-            rel="noreferrer"
+          <Link
+            to="/schedules"
             className="rounded-full bg-gold px-8 py-4 font-bold text-ink shadow-lg shadow-gold/20 transition-colors hover:bg-gold-light"
           >
-            Agendar pelo WhatsApp
-          </a>
+            Agendar horário
+          </Link>
           <a
             href="#servicos"
             className="rounded-full border border-cream/30 px-8 py-4 font-semibold text-cream transition-colors hover:border-gold hover:text-gold"
